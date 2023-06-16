@@ -1,0 +1,23 @@
+<% layout("layout.eta") %>
+
+<% if (it.product) { %>
+<div class="row">
+	<div class="col-md-6">
+		<% if (it.product.hasImg) { %>
+		<img class="img-fluid shadow" src="/products/<%= it.product.id %>.jpg" alt="" style="">
+		<% }  %>
+	</div>
+	<div class="col-md-6">
+		<h3>Détail d'un produit</h3>
+
+		<div>
+			<h4><%= it.product.name %></h4>
+			<p><%= it.product.description %></p>
+			<p>
+				<span class="badge bg-secondary"><%= it.product.price %> €</span>
+			</p>
+			<a class="btn btn-primary" href="/list">Retour liste</a>
+		</div>
+	</div>
+</div>
+<% } %>

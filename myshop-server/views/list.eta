@@ -1,0 +1,19 @@
+<% layout("layout.eta") %>
+
+<div class="container">
+	<div class="row py-3">
+		<% for (let i=0 ; i<it.products.length ; i++) { %>
+		<% let product = it.products[i] ; %>
+		<div class="col-sm-6 col-lg-4 pb-3">
+			<div class="card text-center h-100">
+				<img src="/products/<%= product.id %>.jpg" style="object-fit: cover; height:200px" class="card-img-top" alt="...">
+				<div class="card-body">
+					<h5 class="card-title"><%= product.name %></h5>
+					<p class="card-text"><%= product.description %></p>
+					<a href="/details/<%= product.id %>" class="btn btn-primary">Voir le produit</a>
+				</div>
+			</div>
+		</div>
+		<% } %>
+	</div>
+</div>
