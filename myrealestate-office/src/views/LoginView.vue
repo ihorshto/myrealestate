@@ -2,6 +2,9 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+import { useUserStore } from '../stores/user';
+let userStore = useUserStore();
+
 const router = useRouter();
 
 let login = ref("");
@@ -18,7 +21,9 @@ async function goLogin() {
     })
     let json = await response.json();
     if (json.data) {
-      localStorage.setItem("user", JSON.stringify(json.data));
+      // localStorage.setItem("user", JSON.stringify(json.data));
+      console.log(JSON.stringify(json.data));
+      userStore.setUser(JSON.stringify(json.data));
       router.push('/');
     }
   } catch (e) {

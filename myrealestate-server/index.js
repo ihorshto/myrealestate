@@ -51,15 +51,17 @@ async function checkUser(req, res, next) {
 async function loadProduct(id) {
     let product = await connection.query(`SELECT t1.*, t2.name AS typeName, t3.name AS clientName FROM bien_immo t1 LEFT JOIN type_immo t2 ON t1.type_immo = t2.id LEFT JOIN clients t3 ON t1.id_client = t3.id where id=?`, [id]);
     if (product[0].length == 0) return null;
+
     let p = product[0][0];
+    console.log("product", product);
     p.hasImg = fs.existsSync(`./assets/products/${p.id}.jpg`);
     return p;
 }
 
 async function addProduct(product) {
     let [inserted] = await connection.query(
-        `INSERT INTO bien_immo (name, description, price, image) VALUES (?, ?, ?, ?)`,
-        [product.name, product.description, product.price, product.image]
+        `INSERT INTO bien_immo (name, description, price, image, type_immo, id_client) VALUES (?, ?, ?, ?, ?, ?)`,
+        [product.name, product.description, product.price, product.image, product.type_immo, product.id_client]
     );
     return inserted.insertId;
 }

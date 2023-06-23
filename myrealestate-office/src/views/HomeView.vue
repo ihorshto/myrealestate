@@ -1,5 +1,9 @@
 <script setup>
-let user = JSON.parse(localStorage.getItem("user"));
+import { useUserStore } from '@/stores/user'
+// let user = JSON.parse(localStorage.getItem("user"));
+
+const user = useUserStore();
+console.log("user", user);
 </script>
 
 <template>

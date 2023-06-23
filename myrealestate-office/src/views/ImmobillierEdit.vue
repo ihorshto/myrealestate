@@ -92,6 +92,14 @@ loadProduct();
               <input type="file" class="form-control" id="image" @change="onChangeImage">
             </div>
             <div id="thumbnail"></div>
+            <div class="mb-3">
+              <label for="type_immo" class="form-label">Type immo</label>
+              <input type="text" class="form-control" id="type_immo" v-model="product.type_immo">
+            </div>
+            <div class="mb-3">
+              <label for="id_client" class="form-label">ID client</label>
+              <input type="text" class="form-control" id="id_client" v-model="product.id_client">
+            </div>
             <button type="button" class="btn btn-primary mt-3" @click.prevent="saveProduct">Enregistrer</button>
           </form>
         </div>

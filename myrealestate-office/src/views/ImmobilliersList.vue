@@ -100,7 +100,7 @@ watch(
           </li>
         </ul>
       </div>
-  
+
       <div class="row">
         <div class="col">
           <table class="table">
@@ -109,8 +109,9 @@ watch(
                 <th>ID</th>
                 <th>Nom du produit</th>
                 <th>Prix</th>
-                <th>Image</th>
+                <th>Name</th>
                 <th>Type</th>
+                <th>Image</th>
                 <th>&nbsp;</th>
 
               </tr>
@@ -120,18 +121,20 @@ watch(
                 <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.price }} €</td>
+                <td>{{ product.clientName }} €</td>
+                <td>{{ product.typeName }} €</td>
                 <td><img v-if="product.hasImg" :src="getImageUrl(product)" style="max-height: 100px; max-width:100px" />
                 </td>
-                <td>{{ product.type_immo }} </td>
                 <td><a :href="`/products/edit/${product.id}`" class="btn btn-sm btn-primary">Modifier</a> <a
                     :href="`javascript:void(0)`" class="btn btn-sm btn-danger"
-                    @click.prevent="deleteProd(product.id)">Effacer</a></td>
+                    @click.prevent="deleteProd(product.id)">Effacer</a>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-
+    
   </main>
 </template>
