@@ -66,6 +66,7 @@ function onChangeImage(evt) {
 }
 
 loadProduct();
+console.log('product', product);
 </script>
 
 <template>
