@@ -15,7 +15,8 @@
     "eta": "^2.0.1",
     "express": "^4.18.2",
     "mysql2": "^3.2.3",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "ws": "^8.13.0"
   },
   "nodemonConfig": {
     "ext": "js,html,eta"

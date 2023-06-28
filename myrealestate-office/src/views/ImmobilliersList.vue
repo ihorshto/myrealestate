@@ -107,7 +107,7 @@ watch(
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Nom du produit</th>
+                <th>Nom du immo</th>
                 <th>Prix</th>
                 <th>Name</th>
                 <th>Type</th>
@@ -125,7 +125,7 @@ watch(
                 <td>{{ product.typeName }} €</td>
                 <td><img v-if="product.hasImg" :src="getImageUrl(product)" style="max-height: 100px; max-width:100px" />
                 </td>
-                <td><a :href="`/products/edit/${product.id}`" class="btn btn-sm btn-primary">Modifier</a> <a
+                <td><a :href="`/immobiliers/edit/${product.id}`" class="btn btn-sm btn-primary">Modifier</a> <a
                     :href="`javascript:void(0)`" class="btn btn-sm btn-danger"
                     @click.prevent="deleteProd(product.id)">Effacer</a>
                 </td>
@@ -135,6 +135,6 @@ watch(
         </div>
       </div>
     </div>
-    
+
   </main>
 </template>

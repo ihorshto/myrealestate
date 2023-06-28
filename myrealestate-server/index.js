@@ -1,3 +1,5 @@
+const { WebSocketServer, WebSocket } = require("ws");
+
 const fs = require('fs');
 const express = require("express");
 const app = express();
@@ -29,6 +31,24 @@ async function initMySQL() {
     });
 }
 
+// websocket
+let ws_server = new WebSocketServer({ port: 8001 });
+ws_server.on("connection", (ws) => {
+    console.log("new client connected");
+    // ws.send({ action: "newmessage", text: "Hello" });
+
+    ws.on("message", data => {
+        console.log(`le client a envoyé :`, data)
+    });
+    ws.on("close", () => {
+        console.log("le client s'est déconnecté");
+    });
+    ws.onerror = function (err) {
+
+        console.log("Une erreur est survenue", err);
+    }
+});
+
 app.get("/", function (req, res) {
     res.redirect("/list");
 });
@@ -49,7 +69,10 @@ async function checkUser(req, res, next) {
 }
 
 async function loadProduct(id) {
-    let product = await connection.query(`SELECT t1.*, t2.name AS typeName, t3.name AS clientName FROM bien_immo t1 LEFT JOIN type_immo t2 ON t1.type_immo = t2.id LEFT JOIN clients t3 ON t1.id_client = t3.id where id=?`, [id]);
+    console.log('id', id)
+    let product = await connection.query(`SELECT * FROM bien_immo
+    WHERE id=?`, [id]);
+    console.log("product loqdProduct", product)
     if (product[0].length == 0) return null;
 
     let p = product[0][0];
@@ -67,7 +90,7 @@ async function addProduct(product) {
 }
 
 async function updateProduct(id, product) {
-    await connection.query(`UPDATE bien_immo SET name=?, description=?, price=? WHERE id=?`, [product.name, product.description, product.price, id]);
+    await connection.query(`UPDATE bien_immo SET name=?, description=?, price=?, type_immo=?, id_client=? WHERE id=?`, [product.name, product.description, product.price, product.type_immo, product.id_client, id]);
     return id;
 }
 
@@ -114,10 +137,16 @@ app.get("/office/productstypes", checkUser, async function (req, res) {
 });
 
 app.get("/office/products/:id", checkUser, async function (req, res) {
+    console.log('on est ici', req.params.id)
     if (req.params.id == "0") {
-        return res.send({ data: { id: 0, name: "", description: "", price: 0 } })
+        return res.send({ data: { id: 0, name: "", description: "", price: 0, type_immo: "", id_client: 0 } })
     }
+
+    console.log('on est ici', req.params.id)
+
     let product = await loadProduct(req.params.id);
+    console.log('product office', product)
+
     if (!product) return res.send({ error: "product not found" })
     res.send({ data: product })
 });

@@ -4,6 +4,20 @@ import { useUserStore } from '@/stores/user'
 
 const user = useUserStore();
 console.log("user", user);
+
+
+const ws = new WebSocket("ws://localhost:8001");
+ws.addEventListener("open", () => {
+  console.log("Connecté au serveur");
+  ws.send({ message: "Salut" });
+});
+
+ws.addEventListener('message', function (event) {
+  console.log("Nous avons reçu du serveur", event.data);
+});
+
+
+
 </script>
 
 <template>
@@ -11,6 +25,7 @@ console.log("user", user);
     <div class="container my-3">
       <div class="row">
         <div class="col">
+
           <h1>Bienvenue {{ user.name }}</h1>
         </div>
       </div>

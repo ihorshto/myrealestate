@@ -17,6 +17,7 @@ async function loadProduct() {
     })
     let json = await response.json();
     product.value = json.data;
+    console.log("product", product.value)
   } catch (e) {
     console.warn(e);
   }
@@ -40,7 +41,7 @@ async function saveProduct() {
     })
     let json = await response.json();
     product.value = json.data;
-    router.push('/products/list');
+    router.push('/immobiliers/list');
   } catch (e) {
     console.warn(e);
   }
@@ -74,10 +75,10 @@ console.log('product', product);
     <div class="container">
       <div class="row my-3">
         <div class="col">
-          <h1>Edition d'un produit</h1>
+          <h1>Edition d'un immo</h1>
           <form>
             <div class="mb-3">
-              <label for="name" class="form-label">Nom du produit</label>
+              <label for="name" class="form-label">Nom du immo</label>
               <input type="text" class="form-control" id="name" v-model="product.name">
             </div>
             <div class="mb-3">
