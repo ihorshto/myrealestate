@@ -65,7 +65,7 @@ async function deleteProd(id) {
 }
 
 function getImageUrl(product) {
-  return `http://localhost:8000/products/${product.id}.jpg`;
+  return `http://localhost:8000/products/${product.id}.jpg?d=${new Date().toString()}`;
 }
 
 loadProducts();
@@ -128,8 +128,8 @@ watch(
                 <td>{{ product.typeName }} </td>
                 <td><img v-if="product.hasImg" :src="getImageUrl(product)" style="max-height: 100px; max-width:100px" />
                 </td>
-                <td><a :href="`/immobiliers/edit/${product.id}`" class="btn btn-sm btn-primary">Modifier</a> <a
-                    :href="`javascript:void(0)`" class="btn btn-sm btn-danger"
+                <td><a @click="router.push(`/immobiliers/edit/${product.id}`)" class="btn btn-sm btn-primary">Modifier</a>
+                  <a :href="`javascript:void(0)`" class="btn btn-sm btn-danger"
                     @click.prevent="deleteProd(product.id)">Effacer</a>
                 </td>
               </tr>

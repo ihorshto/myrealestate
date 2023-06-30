@@ -133,7 +133,8 @@ loadUsers();
               <input type="file" class="form-control" id="image" @change="onChangeImage">
             </div>
             <div id="thumbnail" class="mb-3">
-              <!-- <img :src=product.image alt="" width="200"  > -->
+              <img :src="`http://localhost:8000/products/${product.id}.jpg?d=${new Date().toString()}`" alt=""
+                width="200">
             </div>
             <div class="mb-3">
               <label for="type_immo" class="form-label mr-2">Type immo: </label>
