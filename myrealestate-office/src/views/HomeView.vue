@@ -17,7 +17,6 @@ ws.addEventListener('message', function (event) {
 });
 
 
-
 </script>
 
 <template>
@@ -32,7 +31,7 @@ ws.addEventListener('message', function (event) {
       <div class="row mt-4">
         <div class="col">
           <div>
-            <a class="btn btn-primary" href="/products/list">Gestion des produits</a>
+            <a class="btn btn-primary" href="/immobiliers/list">Gestion des produits</a>
           </div>
           <div class="mt-3">
             <a class="btn btn-primary" href="/users/list">Gestion des utilisateurs</a>

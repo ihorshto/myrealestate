@@ -7,6 +7,7 @@ const route = useRoute();
 const router = useRouter();
 
 let product = ref({});
+let productstypes = ref([])
 
 async function loadProduct() {
   try {
@@ -17,10 +18,44 @@ async function loadProduct() {
     })
     let json = await response.json();
     product.value = json.data;
-    console.log("product", product.value)
+    console.log("product VALUE", product.value)
   } catch (e) {
     console.warn(e);
   }
+}
+
+async function loadTypesProducts() {
+  try {
+    let response = await fetch('http://localhost:8000/office/productstypes', {
+      method: "GET",
+      headers: {
+        'authorization': `Bearer ${getUserToken()}`
+      }
+    })
+    let json = await response.json();
+    productstypes.value = json.data;
+
+    console.log("Products type", productstypes.value);
+  } catch (e) {
+    console.warn(e);
+  }
+}
+
+let users = ref([])
+async function loadUsers() {
+  try {
+    let response = await fetch('http://localhost:8000/office/users', {
+      method: "GET",
+      headers: {
+        'authorization': `Bearer ${getUserToken()}`
+      }
+    })
+    let json = await response.json()
+    users.value = json.data
+  } catch (e) {
+    console.warn(e);
+  }
+
 }
 
 async function saveProduct() {
@@ -38,14 +73,15 @@ async function saveProduct() {
         'authorization': `Bearer ${getUserToken()}`
       },
       body: JSON.stringify(product.value)
+
     })
+    console.log('product value save', product.value);
     let json = await response.json();
     product.value = json.data;
     router.push('/immobiliers/list');
   } catch (e) {
     console.warn(e);
   }
-
 
 }
 
@@ -60,6 +96,7 @@ function onChangeImage(evt) {
       const newImage = document.createElement('img');
       newImage.src = base64Image;
       newImage.width = 200;
+      console.log("newImage", newImage.outerHTML);
       document.getElementById('thumbnail').innerHTML = newImage.outerHTML;
     };
     fileReader.readAsDataURL(imageFile);
@@ -67,7 +104,9 @@ function onChangeImage(evt) {
 }
 
 loadProduct();
-console.log('product', product);
+loadTypesProducts();
+loadUsers();
+
 </script>
 
 <template>
@@ -90,17 +129,32 @@ console.log('product', product);
               <textarea class="form-control" id="description" rows="3" v-model="product.description"></textarea>
             </div>
             <div class="mb-3">
-              <label for="image" class="form-label">Image (.jpg seulement)</label>
+              <label for=" " class="form-label">Image (.jpg seulement)</label>
               <input type="file" class="form-control" id="image" @change="onChangeImage">
             </div>
-            <div id="thumbnail"></div>
-            <div class="mb-3">
-              <label for="type_immo" class="form-label">Type immo</label>
-              <input type="text" class="form-control" id="type_immo" v-model="product.type_immo">
+            <div id="thumbnail" class="mb-3">
+              <!-- <img :src=product.image alt="" width="200"  > -->
             </div>
             <div class="mb-3">
-              <label for="id_client" class="form-label">ID client</label>
-              <input type="text" class="form-control" id="id_client" v-model="product.id_client">
+              <label for="type_immo" class="form-label mr-2">Type immo: </label>
+
+              <select v-model="product.type_immo">
+                <option id="type_immo" class="form-control" v-for="type_immo in productstypes" :key="type_immo.id"
+                  :value="type_immo.id">
+                  {{ type_immo.id }} - {{ type_immo.name }}
+                </option>
+              </select>
+              <!-- <input type="text" class="form-control" id="price" v-model="product.type_immo"> -->
+            </div>
+            <div class="mb-3">
+              <label for="id_client" class="form-label mr-2">ID client: </label>
+
+              <select v-model="product.id_client">
+                <option id="type_immo" class="form-control" v-for="user in users" :key="user.id" :value="user.id">
+                  {{ user.id }} - {{ user.name }}
+                </option>
+              </select>
+              <!-- <input type="text" class="form-control" id="id_client" v-model="product.id_client"> -->
             </div>
             <button type="button" class="btn btn-primary mt-3" @click.prevent="saveProduct">Enregistrer</button>
           </form>

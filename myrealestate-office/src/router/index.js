@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import ImmobilliersList from '../views/ImmobilliersList.vue'
-import ProductsEdit from '../views/ImmobillierEdit.vue'
+import ImmobillierEdit from '../views/ImmobillierEdit.vue'
 import UsersList from '../views/UsersList.vue'
 import UsersEdit from '../views/UsersEdit.vue'
 // import ImmobillierMaisons from '../views/ImmobilierMaisons.vue'
@@ -33,7 +33,7 @@ const router = createRouter({
     {
       path: '/immobiliers/edit/:id',
       name: 'immobilieredit',
-      component: ProductsEdit,
+      component: ImmobillierEdit,
       meta: { requiresAuth: true }
     },
     {

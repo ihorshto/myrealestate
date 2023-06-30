@@ -72,11 +72,11 @@ async function loadProduct(id) {
     console.log('id', id)
     let product = await connection.query(`SELECT * FROM bien_immo
     WHERE id=?`, [id]);
-    console.log("product loqdProduct", product)
+    console.log("product loqdProduct", product);
     if (product[0].length == 0) return null;
 
     let p = product[0][0];
-    console.log("product", product);
+    console.log("product loadProduct", product);
     p.hasImg = fs.existsSync(`./assets/products/${p.id}.jpg`);
     return p;
 }
@@ -136,16 +136,24 @@ app.get("/office/productstypes", checkUser, async function (req, res) {
     res.send({ data: productstypes });
 });
 
+// GET/POST bien immo
 app.get("/office/products/:id", checkUser, async function (req, res) {
-    console.log('on est ici', req.params.id)
+    console.log('id bien_immo', req.params.id)
     if (req.params.id == "0") {
-        return res.send({ data: { id: 0, name: "", description: "", price: 0, type_immo: "", id_client: 0 } })
+        return res.send({ data: { id: 0, name: "", description: "", price: 0, image: "", type_immo: "", id_client: 0 } })
     }
 
     console.log('on est ici', req.params.id)
 
     let product = await loadProduct(req.params.id);
-    console.log('product office', product)
+
+    console.log('product office', product);
+
+    let where = "1=1", whereData = [];
+    let productstypes = await loadProductsTypes(where, whereData);
+    console.log('productstypes', productstypes);
+
+    let users = await loadUsers();
 
     if (!product) return res.send({ error: "product not found" })
     res.send({ data: product })
@@ -168,6 +176,9 @@ app.put("/office/products/:id", checkUser, async function (req, res) {
     let product = await loadProduct(req.params.id);
     if (!product) return res.send({ error: "product not found" });
     console.log("req.body", req.body);
+
+    console.log("Update Immo ", req.body);
+
     await updateProduct(req.params.id, req.body);
     product = await loadProduct(req.params.id);
     saveImage(req, product.id);

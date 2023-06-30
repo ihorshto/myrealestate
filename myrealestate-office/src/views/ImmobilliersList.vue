@@ -10,6 +10,8 @@ console.log(route.params)
 
 let products = ref([])
 let productstypes = ref([])
+let users = ref([])
+
 async function loadProducts() {
   try {
     let t = route.params.typeimmo ? route.params.typeimmo : "";
@@ -40,8 +42,9 @@ async function loadTypesProducts() {
   }
 }
 
+
 function newProduct() {
-  router.push('/products/edit/0');
+  router.push('/immobiliers/edit/0');
 }
 async function deleteProd(id) {
   if (window.confirm("Voulez-vous vraiment supprimer ce produit ?")) {
@@ -121,8 +124,8 @@ watch(
                 <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.price }} €</td>
-                <td>{{ product.clientName }} €</td>
-                <td>{{ product.typeName }} €</td>
+                <td>{{ product.clientName }} </td>
+                <td>{{ product.typeName }} </td>
                 <td><img v-if="product.hasImg" :src="getImageUrl(product)" style="max-height: 100px; max-width:100px" />
                 </td>
                 <td><a :href="`/immobiliers/edit/${product.id}`" class="btn btn-sm btn-primary">Modifier</a> <a
