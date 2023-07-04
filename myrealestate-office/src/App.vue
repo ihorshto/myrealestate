@@ -40,6 +40,9 @@ function logout() {
                     <RouterLink to="/users/list" class="nav-link">Gestion des utilisateurs</RouterLink>
                   </li>
                   <li class="nav-item">
+                    <RouterLink to="/calendar" class="nav-link">Calendar</RouterLink>
+                  </li>
+                  <li class="nav-item">
                     <a @click="logout" href="javascript:void(0)" class="nav-link">Logout</a>
                   </li>
                 </ul>

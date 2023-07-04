@@ -5,6 +5,8 @@ import ImmobilliersList from '../views/ImmobilliersList.vue'
 import ImmobillierEdit from '../views/ImmobillierEdit.vue'
 import UsersList from '../views/UsersList.vue'
 import UsersEdit from '../views/UsersEdit.vue'
+import FullCalendar from '../views/FullCalendar.vue';
+
 // import ImmobillierMaisons from '../views/ImmobilierMaisons.vue'
 // import ImmobilierAppartments from '../views/ImmobilierAppartments.vue'
 // import ImmobilierTerrains from '../views/ImmobilierTerrains.vue'
@@ -52,6 +54,12 @@ const router = createRouter({
       path: '/immobiliers/:typeimmo',
       name: 'immobiliertypes',
       component: ImmobilliersList,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/calendar',
+      name: 'FullCalendar',
+      component: FullCalendar,
       meta: { requiresAuth: true }
     },
   ]
