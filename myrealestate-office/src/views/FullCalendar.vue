@@ -2,6 +2,8 @@
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import timeGridPlugin from '@fullcalendar/timegrid'
+
 
 export default {
     components: {
@@ -10,12 +12,12 @@ export default {
     data() {
         return {
             calendarOptions: {
-                plugins: [dayGridPlugin, interactionPlugin],
-                initialView: 'dayGridWeek',
+                plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
+                initialView: 'timeGridWeek',
                 headerToolbar: {
                     left: 'prev,next',
                     center: 'title',
-                    right: 'dayGridWeek,dayGridDay' // user can switch between the two
+                    right: 'timeGridWeek,dayGridWeek,dayGridDay' // user can switch between the two
                 },
                 dateClick: this.handleDateClick,
                 events: [
@@ -29,7 +31,7 @@ export default {
     },
     methods: {
         handleDateClick: function (arg) {
-            let message = prompt();
+            let message = prompt('Enter title');
             let date = new Date();
             let currentDate = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
             if (message.length != 0) {
@@ -44,15 +46,18 @@ export default {
         handleDeleteClick: function (arg) {
             console.log(arg.event);
             arg.event.remove()
-
-        }
+        },
     }
 }
 
 </script>
 <template>
     <div class="container">
-        <FullCalendar :options="calendarOptions">
+        <FullCalendar :options="calendarOptions" :header="{
+            left: 'title',
+            center: 'dayGridMonth, timeGridWeek, timeGridDay, listWeek',
+            right: 'prev today next'
+        }">
             <template v-slot:eventContent='arg'>
                 <b>{{ arg.event.title }}</b><br>
                 <b>{{ arg.event.extendedProps.currentHour }}</b><br>
