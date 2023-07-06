@@ -1,9 +1,16 @@
 <script>
+import { ref } from 'vue'
+
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import listPlugin from '@fullcalendar/list'
+import { identity } from '@fullcalendar/core/internal'
+import { getRelevantEvents } from '@fullcalendar/core/internal'
 
+
+const id = ref(10)
 
 export default {
     components: {
@@ -12,12 +19,12 @@ export default {
     data() {
         return {
             calendarOptions: {
-                plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
-                initialView: 'timeGridWeek',
+                plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
+                initialView: 'dayGridMonth',
                 headerToolbar: {
-                    left: 'prev,next',
+                    left: 'prev,next today',
                     center: 'title',
-                    right: 'timeGridWeek,dayGridWeek,dayGridDay' // user can switch between the two
+                    right: 'dayGridMonth,timeGridWeek,listDay' // user can switch between the two
                 },
                 dateClick: this.handleDateClick,
                 events: [
@@ -25,6 +32,22 @@ export default {
                     { title: 'event 1', date: '2023-07-07', currentHour: '22:13:11' },
                 ],
                 eventClick: this.handleDeleteClick,
+                editable: true,
+                selectable: true,
+                select: (arg) => {
+                    identity.value = id.value + 1
+                    const cal = arg.view.calendar
+                    cal.unselect()
+                    cal.addEvent({
+                        id: `${id.value}`,
+                        title: `New event ${id.value}`,
+                        start: arg.start,
+                        end: arg.end,
+                        allDay: true
+                    })
+                },
+           
+             
 
             }
         }
@@ -44,12 +67,11 @@ export default {
             }
         },
         handleDeleteClick: function (arg) {
-            console.log(arg.event);
-            arg.event.remove()
+
+            console.log(arg.event.title);
         },
     }
 }
-
 </script>
 <template>
     <div class="container">
